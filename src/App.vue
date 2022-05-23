@@ -1,18 +1,23 @@
 <template>
-  <div id="root" class="container">
-    <section class="section">
-      <div class="columns is-centered">
-        <div class="column is-10">
-          <TorrentForm/>
-        </div>
-      </div>
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view />
+</template>
+<!--
+
+<template>
+  <div id="root">
+    <section class="section" id="body">
+      <TorrentForm/>
     </section>
   </div>
-</template>
+</template> -->
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import TorrentForm from "./components/TorrentForm.vue";
+import TorrentForm from "../../../src/components/TorrentForm.vue";
 
 
 export default defineComponent({
@@ -24,24 +29,31 @@ export default defineComponent({
     return {};
   },
   methods: {
-  },
+    },
   setup() {
-  }
+    }
 });
 </script>
 
-<style>
-body {
-  background-color: #39434d;
-}
-.label {
-  color: white;
-}
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #fff;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

@@ -1,0 +1,7 @@
+directories:
+  output: dist.electron
+  buildResources: build
+appId: torrentfile.js.app
+mac:
+  category: torrentfile.js.app.electron
+asarUnpack: config/**
