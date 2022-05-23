@@ -1,14 +1,12 @@
 const path = require('path');
 const { protocol, app, BrowserWindow, ipcMain, dialog } = require('electron');
-
 const isDev = process.env.IS_DEV == "true" ? true : false;
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-const ipc = ipcMain
-let win, dlog;
+let win;
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -21,7 +19,6 @@ function createWindow() {
       webSecurity: false
     },
   });
-
   win = mainWindow;
   mainWindow.loadURL(
     isDev
@@ -50,19 +47,36 @@ app.on('window-all-closed', () => {
 });
 
 ipcMain.handle("openFileExplorer", (event, payload) => {
-  let path = dialog.showOpenDialogSync(win, { properties: ['openFile'],message:"select torrent file" })
-  console.log(path);
-  return path[0];
+  let path = dialog.showOpenDialogSync(win, {
+    properties: ['openFile'],
+    message: "select torrent file"
+  });
+  if (path){
+    return path[0];
+  }
 })
-ipcMain.handle("openFolderExplorer",(event, payload) => {
+
+ipcMain.handle("openFolderExplorer", (event, payload) => {
   let path = dialog.showOpenDialogSync(win, {
     properties: ['openDirectory'],
     message:"select torrent folder"
   });
-  console.log(path);
-  return path[0];
+  if (path) {
+    return path[0];
+  }
 })
 
+ipcMain.handle("openSaveFileExplorer", (event, payload) => {
+  let path = dialog.showSaveDialogSync(win, {
+    filters: {
+      name: "torrent",
+      extensions: [".torrent"]
+    }
+  });
+  if (path) {
+    return path[0];
+  }
+})
 
 if (isDev) {
   if (process.platform === 'win32') {
